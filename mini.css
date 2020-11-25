@@ -19,7 +19,7 @@
     --line-height: 1.5;
     --width-card: 285px;
     --width-card-medium: 460px;
-    --width-card-wide: 800px;
+    --width-card-wide: 1080px;
     --width-content: 1080px;
 }
 
@@ -53,7 +53,7 @@ body {
     line-height: var(--line-height);
     margin: 0;
     overflow-x: hidden;
-    padding: 1rem 0;
+    padding: 1rem;
 }
 
 footer,

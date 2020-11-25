@@ -1,0 +1,130 @@
+<head>
+	<link rel="stylesheet" href="mini.css">
+</head>
+<body>
+<h1 id="widget-malmberg-sanoma">Widget Malmberg/Sanoma</h1>
+<h2 id="platforms">Platforms</h2>
+<h3 id="platform-max">Platform MAX</h3>
+<ul>
+<li>alle VO methodes</li>
+<li>Take Care (MBO) </li>
+</ul>
+<h3 id="p3">P3</h3>
+<ul>
+<li>de overige MBO methodes Rekenblokken en Taalblokken. </li>
+</ul>
+<h2 id="secties-as-of-25-11-2020-">Secties (as of 25/11/2020)</h2>
+<ul>
+<li>360004155698 - Bestellen</li>
+<li>360004136297 - Hoofdmenu</li>
+<li>360004134558 - Storingen en onderhoud</li>
+<li>360004127357 - Profiel</li>
+<li>360004127317 - Inloggen docenten</li>
+<li>360004136317 - Mijn klassen</li>
+<li>360004131918 - <strong>Taalblokken en Rekenblokken</strong></li>
+<li>360004131818 - Klassen</li>
+<li>360004127337 - Inloggen studenten</li>
+<li>360004136337 - Mijn lesstof</li>
+<li>360004129537 - Hulp bij inloggen</li>
+<li>360004127397 - <strong>Take Care</strong></li>
+<li>360004131838 - Lessen</li>
+<li>360004136357 - Resultaten</li>
+<li>360004127377 - Resultaten</li>
+<li>360004136377 - Docentmaterieel</li>
+<li>360004131858 - Toetsen</li>
+<li>360004136617 - Dyslexie</li>
+<li>360004131898 - Overig</li>
+</ul>
+<h2 id="approach">Approach</h2>
+<p>Aangezien er 1 sectie excluded moet worden, gaan we werken met scenario 2 en 3 met een <a href="https://developer.zendesk.com/embeddables/docs/widget/settings#filter">sectie filter</a>.
+Deze filter is jammergenoeg <em>including</em> en niet <em>excluding</em> dus we moeten alle secties oplijsten die WEL gebruikt worden.</p>
+<pre><code>window.zESettings = {
+	webWidget: {
+		helpCenter: {
+			filter: {
+				section: '123456,654321'
+			}
+		}
+	}
+};
+</code></pre><h2 id="scenario-s">Scenario&#39;s</h2>
+<h3 id="scenario-1">Scenario 1</h3>
+<p>Benaderd iemand het helpcenter via de widget in de applicatie dan geldt het volgende: Iemand die met één van de VO methodes werkt moet direct in het helpcenter van VO kunnen zoeken. </p>
+<ul>
+<li>Widget Brand = Malmberg VO</li>
+<li>HC is Mallmberg VO</li>
+<li>Alle secties en artikels </li>
+</ul>
+<p><a href="scenario1.html">Voorbeeld</a></p>
+<h3 id="scenario-2">Scenario 2</h3>
+<p>Iemand die met Take Care werkt moet in alle categorieën van het helpcenter van mbo kunnen zoeken behalve bij gebruik lesmethode. Hier willen we alleen de artikelen behorende bij Take Care tonen. </p>
+<ul>
+<li>Widget Brand is Malmberg MBO</li>
+<li>HC is Marlmberg MBO</li>
+<li>Exclude Categorie Gebruik Online Lesmethode &gt;&gt; Sectie Taalblokken</li>
+</ul>
+<pre><code>window.zESettings = {
+	webWidget: {
+		helpCenter: {
+			filter: {
+				section: '360004155698,360004136297,360004134558,360004127357,360004127317,360004136317,360004131818,360004127337,360004136337,360004129537,360004127397,360004131838,360004136357,360004127377,360004136377,360004131858,360004136617,360004131898'
+			}
+		}
+	}
+};
+</code></pre>
+<p><a href="scenario2.html">Voorbeeld</a></p>
+<h3 id="scenario-3">Scenario 3</h3>
+<p>Voor iemand die met Taalblokken en/of Rekenblokken werkt geldt hetzelfde maar dan moeten onder gebruik lesmethode alleen de artikelen van Taalblokken/Rekenblokken zichtbaar zijn.</p>
+<ul>
+<li>Widget Brand is Malmberg MBO</li>
+<li>HC is Marlmberg MBO</li>
+<li>Exclude Categorie Gebruik Online Lesmethode &gt;&gt; Sectie Take Care</li>
+</ul>
+<pre><code>window.zESettings = {
+	webWidget: {
+		helpCenter: {
+			filter: {
+				section: '360004155698,360004136297,360004134558,360004127357,360004127317,360004136317,360004131918,360004131818,360004127337,360004136337,360004129537,360004131838,360004136357,360004127377,360004136377,360004131858,360004136617,360004131898'
+			}
+		}
+	}
+};
+</code></pre>
+<p><a href="scenario3.html">Voorbeeld</a></p>
+<h2 id="combining-settings">Combining settings</h2>
+<p>We already provided the code below to change branding:</p>
+<pre><code>window.zESettings = {
+	webWidget: {
+		chat: {
+			concierge: {
+				avatarPath: 'https://example.com/img/avatar.jpg',
+				name: 'Jane Doe',
+				title: {
+					'*': 'Live support' 
+				}
+			}
+		}
+	}
+};
+</code></pre><p> If you want to combine this with the code above they have to be nested since all <em>zESettings</em> need to be called at once.</p>
+<pre><code>window.zESettings = {
+	webWidget: {
+		helpCenter: {
+			filter: {
+				section: '123456,654321'
+			}
+		},
+		chat: {
+			concierge: {
+				avatarPath: 'https://example.com/img/avatar.jpg',
+				name: 'Jane Doe',
+				title: { 
+					'*': 'Live support' 
+				}
+			}
+		}
+	}
+};
+</code></pre><p>This code should be loaded <strong>below</strong> the widget initialiser code as found on <a href="https://malmbergvo.zendesk.com/agent/admin/widget">https://malmbergvo.zendesk.com/agent/admin/widget</a></p>
+</body>
